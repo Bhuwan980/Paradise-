@@ -7,16 +7,50 @@ Customer Profile | Paradise
 <h1 class="text-center">Your Profile</h1>
 <hr>
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-4">
         <h4 class="text-center">Your Detail</h4>
         <hr>
+        <b>First Name:</b>{{customer.first_name}}
+        <br>
+        <b>Middle Name:</b>{{customer.middle_name}}
+        <br>
+        <b>Last Name:</b>{{customer.last_name}}
+        <br>
         <b>Username:</b> {{user.username}}
         <br>
         <b>Email:</b> {{user.email}}
+        <br>
+        <b>Address: </b>{{customer.address}}
     </div>
-    <div class="col-md-6">
+    <div class="col-md-8">
         <h4 class="text-center">Your History</h4>
         <hr>
+        <div class="container">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>
+                        SN
+                    </th>
+                    <th>Order Id</th>
+                    <th>Order Date</th>
+                    <th>Order By</th>
+                    <th>Order Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for ord in order %}
+                <tr><th>{{ forloop.counter }}</th>
+                <th>{{ ord.id }}</th>
+                    <th>{{ord.created_at}}</th>
+                    <th>{{ord.order_by}}</th>
+                    <th>{{ord.order_status}}</th>
+                </tr>
+                {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
 
     </div>
 </div>

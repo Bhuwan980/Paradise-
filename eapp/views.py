@@ -271,5 +271,6 @@ class CustomerProfileView(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         if self.request.user.is_authenticated and self.request.user.customer:
             context['user'] = self.request.user
-
+            context['customer'] = self.request.user.customer
+            context['order'] = Order.objects.filter(cart__customer=context['customer'])
         return context
