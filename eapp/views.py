@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView, View, CreateView, FormView
+from django.views.generic import TemplateView, View, CreateView, FormView, ListView, DetailView
 from .models import *
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import CheckoutForm, CustomerRegistrationForm, CustomerLoginForm
@@ -24,6 +24,8 @@ class EconMixin(object):
 
 class HomeView(EconMixin, TemplateView):
     template_name = 'index.html'
+    paginate_by = 5
+
 
     def get_context_data(self, *args, **kwargs):
         context = super(HomeView, self).get_context_data(**kwargs)
@@ -274,3 +276,23 @@ class CustomerProfileView(LoginRequiredMixin, TemplateView):
             context['customer'] = self.request.user.customer
             context['order'] = Order.objects.filter(cart__customer=context['customer'])
         return context
+
+class CustomerOrderDetailView(DetailView):
+    template_name = 'order_detail_view.html'
+    model = Order
+    context_object_name = 'order_obj'
+
+
+    def dispatch(self, request, *args, **kwargs):
+
+
+        if request.user.is_authenticated and request.user.customer:
+            order_id = self.kwargs['pk']
+            order_obj = Order.objects.get(id=order_id)
+            if request.user.customer != order_obj.cart.customer:
+                return redirect('customerprofile')
+        else:
+            return redirect('customer-login/?next=/customer-profile/')
+
+        return super().dispatch(request, *args, **kwargs)
+

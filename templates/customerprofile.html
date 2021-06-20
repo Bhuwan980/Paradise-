@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+
+
 {% block title %}
 Customer Profile | Paradise
 {% endblock %}
@@ -34,17 +36,20 @@ Customer Profile | Paradise
                     </th>
                     <th>Order Id</th>
                     <th>Order Date</th>
-                    <th>Order By</th>
+
                     <th>Order Status</th>
+                    <th>Order By</th>
                 </tr>
                 </thead>
                 <tbody>
                 {% for ord in order %}
-                <tr><th>{{ forloop.counter }}</th>
-                <th>{{ ord.id }}</th>
+                <tr>
+                    <th>{{ forloop.counter }}</th>
+                    <th><a href="{% url 'orderdetailview' ord.pk %}">#ORDER_{{ ord.id }}</a></th>
                     <th>{{ord.created_at}}</th>
-                    <th>{{ord.order_by}}</th>
+
                     <th>{{ord.order_status}}</th>
+                    <th>{{ord.order_by}}</th>
                 </tr>
                 {% endfor %}
                 </tbody>

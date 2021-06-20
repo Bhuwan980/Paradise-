@@ -2,7 +2,6 @@ from django.urls import path
 from .views import *
 from django.contrib.auth.decorators import login_required
 
-
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
     path('contact-us/', ContactusView.as_view(), name='contactus'),
@@ -22,5 +21,7 @@ urlpatterns = [
     path('customer-logout/', CustomerLogoutView.as_view(), name='customerlogout'),
     path('customer-login/', CustomerLoginView.as_view(), name='customerlogin'),
     path('customer-profile/', CustomerProfileView.as_view(), name='customerprofile'),
+
+    path('customer-profile/order-detail-<int:pk>/', CustomerOrderDetailView.as_view(), name='orderdetailview'),
 
 ]

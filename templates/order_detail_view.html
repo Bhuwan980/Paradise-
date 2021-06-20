@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block title %}
+Customer Order Detail View | Paradise
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <h4 class="text-center">Order Detail</h4>
+            <hr>
+            <b>Order By: </b>{{order_obj.order_by}}<br>
+             <b>Shipping Address: </b>{{order_obj.shipping_address}}<br>
+             <b>Mobile: </b>{{order_obj.mobile}}<br>
+             <b>Email: </b>{{order_obj.email}}<br>
+
+            <b>Total: </b>{{order_obj.total}}<br>
+
+
+
+        </div>
+        <div class="col-md-8"><h4 class="text-center">Items</h4>
+        <hr>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>SN</th>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Subtotal</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for cp in order_obj.cart.cartproduct_set.all %}
+            <tr>
+                <th>{{forloop.counter}}</th>
+                <th><a target="blank" href="{% url 'productdetail' cp.product.slug %}">{{cp.product}}</a></th>
+                <th>{{cp.rate|intcomma}}/-</th>
+                <th>{{cp.subtotal|intcomma}}/-</th>
+            </tr>
+            {% endfor %}
+            <tr><th colspan="3" class="text-right">Total: </th>
+            <th>{{order_obj.total|intcomma}}/-</th></tr>
+            </tbody>
+        </table>
+        </div>
+
+    </div>
+</div>
+
+
+{% endblock %}

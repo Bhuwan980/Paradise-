@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load humanize %}
 
 {% block title %}
 MyCart | Paradise
@@ -34,9 +35,9 @@ MyCart | Paradise
                 <tr>
                     <td>{{ forloop.counter }}</td>
                     <td>{{ cp.product }}</td>
-                    <td>{{cp.rate}}</td>
-                    <td>{{cp.quantity}}</td>
-                    <td>{{cp.subtotal}}</td>
+                    <td>{{cp.rate|intcomma}}/-</td>
+                    <td class="text-center">{{cp.quantity}}</td>
+                    <td>{{cp.subtotal|intcomma}}/-</td>
                     <td>
                         <a class="btn btn-primary" href="{% url 'managecart' cp.id %}?action=inc">+</a> &nbsp;
                         <a class="btn btn-warning" href="{% url 'managecart' cp.id %}?action=dec">-</a>&nbsp;
@@ -51,7 +52,7 @@ MyCart | Paradise
                 {% if cart.cartproduct_set.all %}
                 <tr>
                     <th colspan="4" class="text-right">Total: </th>
-                    <th>{{cart.total}}</th>
+                    <th>{{cart.total|intcomma}}/-</th>
 
                 </tr>
 
