@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{product.name}}
+{% endblock %}
+
+{% block content %}
+<h4>
+    {{product.name}}
+</h4>
+<hr>
+<br>
+<div class="row">
+
+    <div class="col-md-6">
+        <img src="{{ product.image.url }}" alt="{{product.name}}+' image'" width="600" height="600">
+
+</div>
+    <div class="col-md-6">
+<p><h5>{{product.name}} ({{ product.count_view }} Views)</h5></p>
+        <p><strong>Price: Rs. {{product.price}}</strong></p>
+        <a class="btn btn-outline-primary" href="{% url 'addtocart' product.id %}">Add to Cart</a>
+
+        <hr>
+        <p><u><strong>Description:</strong> </u> <br>{{product.desc}}</p>
+          <p><u><strong>Category:</strong> </u> <br><a href="">{{product.category}}</a></p>
+          <p><u><strong>Warrenty:</strong> </u> <br>{{product.warrenty}}</p>
+    </div>
+</div>
+{% endblock %}

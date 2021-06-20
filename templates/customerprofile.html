@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}
+Customer Profile | Paradise
+{% endblock %}
+
+{% block content %}
+<h1 class="text-center">Your Profile</h1>
+<hr>
+<div class="row">
+    <div class="col-md-6">
+        <h4 class="text-center">Your Detail</h4>
+        <hr>
+        <b>Username:</b> {{user.username}}
+        <br>
+        <b>Email:</b> {{user.email}}
+    </div>
+    <div class="col-md-6">
+        <h4 class="text-center">Your History</h4>
+        <hr>
+
+    </div>
+</div>
+
+
+{% endblock %}

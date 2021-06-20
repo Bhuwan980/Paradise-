@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}>
+
+
+{% block title %}
+All products
+{% endblock %}
+
+
+{% block content %}
+{{ category.title }}
+<br>
+{% for category in allcategories %}
+<h5><strong>{{category.title}}</strong></h5>
+<hr>
+
+<div class="row">
+
+{% for cat in category.product_set.all %}
+
+    <div class="card" style="width: 20rem; margin: 10px ">
+        <div class="card-body">
+            <a href="{% url 'productdetail' cat.slug %}">
+                <img class="card-img-top" src="{{ cat.image.url }}" alt="Card image cap">
+                <hr>
+
+                <h5 class="card-title">{{ cat.name }}</h5>
+            </a>
+            <p class="text-center mt-3">Price: <strong>Rs. {{cat.price}}</strong> &nbsp; <a href="{% url 'addtocart' cat.id %}"
+                                                                                            class="btn btn-outline-primary">Add
+                to Cart</a></p>
+
+        </div>
+
+    </div>
+   {% endfor %}
+
+</div>
+<br>
+{% endfor %}
+<br>
+
+
+{% endblock %}

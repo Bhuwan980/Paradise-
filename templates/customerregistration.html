@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}
+Customer Registration | Paradise
+{% endblock %}
+
+{% block content %}
+<br>
+
+<div class="container text-center">
+    <h4>Customer Registration</h4>
+    <hr>
+    <form method="POST">
+        {% csrf_token %}
+
+        {% for field in form.visible_fields %}
+
+        <label><b>{{field.label}}:</b></label>
+        <br>
+        {{ field }}
+        <br>
+        {% endfor %}
+        <br>
+        <input type="submit" value="Register" class="btn btn-outline-primary"/>
+    </form>
+    <p>Already have account? <a href="{% url 'customerlogin' %}">Login</a></p>
+</div>
+{% endblock %}

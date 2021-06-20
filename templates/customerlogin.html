@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}
+Customer Login | Paradise
+{% endblock%}
+{% block content %}
+<br>
+<div class="container text-center">
+    <h4>Customer Login</h4>
+    <hr>
+    {% if error %}
+    <div class="container">
+        <form class="border">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ error }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+        </form>
+    </div>
+</div>
+{% endif %}
+<form method="POST">
+    {% csrf_token %}
+
+    <!--        {% for field in form.visible_fields %}-->
+
+    <!--            <label><b>{{field.label}}:</b></label>-->
+    <!--            <br>-->
+    <!--            {{ field }}-->
+    <!--        <br>-->
+    <!--        <br>-->
+    <!--        {% endfor %}-->
+    {{ form.as_p }}
+
+    <input type="submit" value="Login" class="btn btn-outline-primary"/>
+</form>
+
+<p>Don't have account? <a href="{% url 'customerregistration' %}{% if request.GET.next %}?next={{request.GET.next }}{% endif %}">Register</a></p>
+</div>
+{% endblock %}

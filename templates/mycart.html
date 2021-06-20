@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}
+MyCart | Paradise
+{% endblock %}
+
+{% block content %}
+<br>
+<h2>Items in my Cart</h2>
+<hr>
+
+<div class="container ">
+    <b><a  class="" href="{% url 'emptycart' %}">Empty Cart</a></b>
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-md-8">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>
+                        SN
+                    </th>
+                    <th>Product</th>
+                    <th>Rate</th>
+                    <th>Quantity</th>
+                    <th>Subtotal</th>
+                    <th>Action
+                    </th>
+                </tr>
+                </thead>
+                {% for cp in cart.cartproduct_set.all %}
+                <tbody>
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ cp.product }}</td>
+                    <td>{{cp.rate}}</td>
+                    <td>{{cp.quantity}}</td>
+                    <td>{{cp.subtotal}}</td>
+                    <td>
+                        <a class="btn btn-primary" href="{% url 'managecart' cp.id %}?action=inc">+</a> &nbsp;
+                        <a class="btn btn-warning" href="{% url 'managecart' cp.id %}?action=dec">-</a>&nbsp;
+                        <a class="btn btn-danger" href="{% url 'managecart' cp.id %}?action=del">X</a>
+
+                    </td>
+                </tr>
+                </tbody>
+
+                {% endfor %}
+
+                {% if cart.cartproduct_set.all %}
+                <tr>
+                    <th colspan="4" class="text-right">Total: </th>
+                    <th>{{cart.total}}</th>
+
+                </tr>
+
+                <tr>
+                    <th class="text-right" colspan="5"><a  class="btn btn-outline-primary" href="{% url 'checkout' %}">CheckOut</a></th>
+                </tr>
+                {% endif %}
+                <!--               <tr>-->
+                <!--                   <th colspan="4" class ="text-righ"> Total: </th>-->
+                <!--                   <th>{{cart.total}}</th>-->
+                <!--               </tr>-->
+
+
+            </table>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
