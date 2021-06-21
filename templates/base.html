@@ -16,6 +16,7 @@
             text-decoration: none;
             }
 
+
     </style>
 
 </head>
@@ -46,15 +47,14 @@
                 </li>
 
 
-
                 {% if user.is_authenticated %}
-<!--                <li class="nav-item">-->
-<!--                    <a class="nav-link" href="{% url 'customerregistration' %}"> {{user.customer.address}}</a>-->
-<!--                </li>-->
+                <!--                <li class="nav-item">-->
+                <!--                    <a class="nav-link" href="{% url 'customerregistration' %}"> {{user.customer.address}}</a>-->
+                <!--                </li>-->
 
-<!--                <li class="nav-item">-->
-<!--                    <a class="nav-link" href="{% url 'customerlogout' %}">LogOut</a>-->
-<!--                </li>-->
+                <!--                <li class="nav-item">-->
+                <!--                    <a class="nav-link" href="{% url 'customerlogout' %}">LogOut</a>-->
+                <!--                </li>-->
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -62,28 +62,32 @@
                         {{ user.customer.first_name }}
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                         <a class="dropdown-item" href="{% url 'customerprofile' %}">Your Profile</a>
-                         <a class="dropdown-item" href="{% url 'customerlogout' %}">LogOut</a>
+                        <a class="dropdown-item" href="{% url 'customerprofile' %}">Your Profile</a>
+                        <a class="dropdown-item" href="{% url 'customerlogout' %}">LogOut</a>
 
                     </div>
                 </li>
                 {% else %}
-                      <li class="nav-item">
+                <li class="nav-item">
                     <a class="nav-link" href="{% url 'customerregistration' %}">Register</a>
                 </li>
                 {% endif %}
             </ul>
 
-             <p  style="padding-top: 10"class="nav-item text-right">
-                    <a class="nav-link" href="{% url 'mycart' %}">My Cart &nbsp; <i class="fa fa-shopping-cart"></i></a>
-                </p>
-            <form class="form-inline my-2 my-lg-0">
+            <p style="padding-top: 10" class="nav-item text-right">
+                <a class="nav-link" href="{% url 'mycart' %}">My Cart &nbsp; <i class="fa fa-shopping-cart"></i></a>
+            </p>
 
-
-                <input class="form-control mr-sm-2" type="search" placeholder="Search what you looking for"
-                       aria-label="Search">
-                <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+            <form action="{% url 'searchresult' %}" method="GET" class="form-inline my-2 my-lg-0">
+                <input name="search" type="text" class="form-control mr-sm-2" placeholder="Search...">
+                <input type="submit" value="Search" class="btn btn-outline-primary">
             </form>
+            <!--            <form action="{% url 'searchresult' %}" class="form-inline my-2 my-lg-0" method="GET">-->
+
+            <!--                <input name="search" class="form-control mr-sm-2" type="search" placeholder="Search what you looking for"-->
+            <!--                       aria-label="Search">-->
+            <!--                <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>-->
+            <!--            </form>-->
         </div>
     </nav>
 </div>

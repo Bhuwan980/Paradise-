@@ -6,6 +6,7 @@ from .forms import CheckoutForm, CustomerRegistrationForm, CustomerLoginForm
 from django.urls import reverse_lazy
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import  Q
 
 
 # Create your views here.
@@ -296,3 +297,28 @@ class CustomerOrderDetailView(DetailView):
 
         return super().dispatch(request, *args, **kwargs)
 
+class SearchResultView(TemplateView):
+    template_name = 'searchresult.html'
+    model = Product
+
+    # def get_queryset(self):
+    #     search_query = self.kwargs.get('search')
+    #     object_list = self.model.objects.all()
+    #     if search_query:
+    #         result = object_list.filter(name__icontains=search_query)
+    #
+    #         print("########################################3", search_query)
+    #     return result
+    #
+    # # search_post = srequest.GET.get('search')
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        query = self.request.GET.get('search')
+        print('3333333333333333333333333333333333333333333333333333333333333333333333333',query)
+        # context['result'] = Product.objects.filter(name=query)
+
+        context['result'] =  Product.objects.filter(name__contains=query)
+
+        return context

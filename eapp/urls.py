@@ -23,5 +23,6 @@ urlpatterns = [
     path('customer-profile/', CustomerProfileView.as_view(), name='customerprofile'),
 
     path('customer-profile/order-detail-<int:pk>/', CustomerOrderDetailView.as_view(), name='orderdetailview'),
+    path('search-result/', SearchResultView.as_view(), name='searchresult'),
 
 ]
