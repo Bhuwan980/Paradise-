@@ -7,6 +7,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import  Q
+from django.core.paginator import Paginator
 
 
 # Create your views here.
@@ -23,17 +24,23 @@ class EconMixin(object):
         return super().dispatch(request, *args, **kwargs)
 
 
-class HomeView(EconMixin, ListView):
+class HomeView(EconMixin, TemplateView):
     template_name = 'index.html'
-    model = Product
-    paginate_by = 6
+    # model = Product
+    # paginate_by = 6
 
 
-    # def get_context_data(self, *args, **kwargs):
-    #     context = super(HomeView, self).get_context_data(**kwargs)
-    #     context['products'] = Product.objects.all().order_by('-id')
-    #     context['category'] = Category.objects.all()
-    #     return context
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        obj = Product.objects.all().order_by('-id')
+        paginator = Paginator(obj, 6)
+        page_number  = self.request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+
+        # context['products'] = Product.objects.all().order_by('-id')
+        # context['category'] = Category.objects.all()
+        context['page_obj'] = page_obj
+        return context
 
     # def get_context_data(self, **kwargs):
     #     context = super(HomeView, self).get_context_data(**kwargs)
