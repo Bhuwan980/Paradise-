@@ -23,16 +23,17 @@ class EconMixin(object):
         return super().dispatch(request, *args, **kwargs)
 
 
-class HomeView(EconMixin, TemplateView):
+class HomeView(EconMixin, ListView):
     template_name = 'index.html'
-    paginate_by = 5
+    model = Product
+    paginate_by = 6
 
 
-    def get_context_data(self, *args, **kwargs):
-        context = super(HomeView, self).get_context_data(**kwargs)
-        context['products'] = Product.objects.all().order_by('-id')
-        context['category'] = Category.objects.all()
-        return context
+    # def get_context_data(self, *args, **kwargs):
+    #     context = super(HomeView, self).get_context_data(**kwargs)
+    #     context['products'] = Product.objects.all().order_by('-id')
+    #     context['category'] = Category.objects.all()
+    #     return context
 
     # def get_context_data(self, **kwargs):
     #     context = super(HomeView, self).get_context_data(**kwargs)
@@ -319,6 +320,6 @@ class SearchResultView(TemplateView):
         print('3333333333333333333333333333333333333333333333333333333333333333333333333',query)
         # context['result'] = Product.objects.filter(name=query)
 
-        context['result'] =  Product.objects.filter(name__contains=query)
+        context['result'] =  Product.objects.filter(Q(name__icontains=query) | Q(desc__icontains=query))
 
         return context
