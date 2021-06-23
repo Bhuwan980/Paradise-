@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, View, CreateView, FormView, ListView, DetailView
 from .models import *
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import CheckoutForm, CustomerRegistrationForm, CustomerLoginForm
+from .forms import CheckoutForm, CustomerRegistrationForm, CustomerLoginForm, ProductCreateForm
 from django.urls import reverse_lazy
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -286,7 +286,7 @@ class CustomerProfileView(LoginRequiredMixin, TemplateView):
             context['order'] = Order.objects.filter(cart__customer=context['customer'])
         return context
 
-class CustomerOrderDetailView(DetailView):
+class CustomerOrderDetailView(LoginRequiredMixin, DetailView):
     template_name = 'order_detail_view.html'
     model = Order
     context_object_name = 'order_obj'
@@ -305,7 +305,7 @@ class CustomerOrderDetailView(DetailView):
 
         return super().dispatch(request, *args, **kwargs)
 
-class SearchResultView(TemplateView):
+class SearchResultView(LoginRequiredMixin, TemplateView):
     template_name = 'searchresult.html'
     model = Product
 
@@ -330,3 +330,17 @@ class SearchResultView(TemplateView):
         context['result'] =  Product.objects.filter(Q(name__icontains=query) | Q(desc__icontains=query))
 
         return context
+
+
+class CreateProductView(LoginRequiredMixin, CreateView):
+    template_name = 'create_product.html'
+    form_class = ProductCreateForm
+    success_url = reverse_lazy('home')
+
+
+    def form_valid(self, form):
+        product = form.save()
+        more_image = self.request.FILES.getlist('more_image')
+        for image in more_image:
+            ProudctImage.objects.create(product=product, image=image)
+        return super().form_valid(form)

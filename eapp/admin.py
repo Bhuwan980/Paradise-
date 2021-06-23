@@ -8,6 +8,7 @@ admin.site.register(Product)
 admin.site.register(Cart)
 admin.site.register(CartProduct)
 admin.site.register(Category)
+admin.site.register(ProudctImage)
 
 # admin.site.register(User)
 # admin.site.register(Product)

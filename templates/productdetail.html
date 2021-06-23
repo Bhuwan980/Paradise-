@@ -12,11 +12,22 @@
 <br>
 <div class="row">
 
-    <div class="col-md-7">
+    <div class="col-md-8">
         <img src="{{ product.image.url }}" alt="{{product.name}}+' image'" width="600" height="600">
+       {% if product.proudctimage_set.all%}
+        <hr>
+
+        <div class="row">
+                 {% for pi in product.proudctimage_set.all %}
+            <div class="col-md-4 p-2">
+            <img style="object-fit:contain; hight:100px" class="img-fluid" src="{{ pi.image.url }}"/>
+                 </div>
+            {% endfor %}
+        </div>
+        {% endif %}
 
 </div>
-    <div class="col-md-5">
+    <div class="col-md-4">
 <p><h5>{{product.name}} ({{ product.count_view }} Views)</h5></p>
         <p><strong>Price: Rs. {{product.price}}</strong></p>
         <a class="btn btn-outline-primary" href="{% url 'addtocart' product.id %}">Add to Cart</a>

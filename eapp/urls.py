@@ -25,4 +25,6 @@ urlpatterns = [
     path('customer-profile/order-detail-<int:pk>/', CustomerOrderDetailView.as_view(), name='orderdetailview'),
     path('search-result/', SearchResultView.as_view(), name='searchresult'),
 
+    path('create-product/', CreateProductView.as_view(), name='createproduct'),
+
 ]

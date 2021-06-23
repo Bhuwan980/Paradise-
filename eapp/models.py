@@ -38,6 +38,14 @@ class Product(models.Model):
     def __str__(self):
         return (self.name)
 
+class ProudctImage(models.Model):
+    product = models.ForeignKey(Product, null=True, blank=True, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='product')
+
+    def __str__(self):
+        return self.product.name
+
+
 
 class Cart(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
