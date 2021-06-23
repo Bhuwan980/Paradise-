@@ -337,10 +337,11 @@ class CreateProductView(LoginRequiredMixin, CreateView):
     form_class = ProductCreateForm
     success_url = reverse_lazy('home')
 
-
     def form_valid(self, form):
         product = form.save()
         more_image = self.request.FILES.getlist('more_image')
+        # for saving the more image of the product
         for image in more_image:
             ProudctImage.objects.create(product=product, image=image)
         return super().form_valid(form)
+
