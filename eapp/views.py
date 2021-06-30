@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, View, CreateView, FormView, ListView, DetailView
 from .models import *
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import CheckoutForm, CustomerRegistrationForm, CustomerLoginForm, ProductCreateForm
+from .forms import CheckoutForm, CustomerRegistrationForm, CustomerLoginForm, ProductCreateForm, AdminLoginForm
 from django.urls import reverse_lazy
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -264,7 +264,7 @@ class CustomerLoginView(FormView):
         pswd = form.cleaned_data['password']
         user = authenticate(username=uname, password=pswd)
 
-        if user is not None and user.customer:
+        if user is not None and Customer.objects.filter(user=user).exists():
             login(self.request, user)
         else:
             return render(self.request, self.template_name,
@@ -295,7 +295,7 @@ class CustomerOrderDetailView(LoginRequiredMixin, DetailView):
     def dispatch(self, request, *args, **kwargs):
 
 
-        if request.user.is_authenticated and request.user.customer:
+        if request.user.is_authenticated and Customer.objects.filter(user=request.user).exists():
             order_id = self.kwargs['pk']
             order_obj = Order.objects.get(id=order_id)
             if request.user.customer != order_obj.cart.customer:
@@ -345,3 +345,60 @@ class CreateProductView(LoginRequiredMixin, CreateView):
             ProudctImage.objects.create(product=product, image=image)
         return super().form_valid(form)
 
+
+class AdminLoginView(FormView):
+    template_name = 'admin/admin_login.html'
+    form_class = AdminLoginForm
+    success_url = reverse_lazy('admin_home')
+
+    def form_valid(self, form):
+        uname = form.cleaned_data['username']
+        pswd = form.cleaned_data['password']
+        user = authenticate(username=uname, password=pswd)
+
+        if user is not None and Admin.objects.filter(user=user).exists():
+            login(self.request, user)
+        else:
+            return render(self.request, self.template_name,
+                          {'form': self.form_class, 'error': 'please enter valid credentials'})
+
+        return super().form_valid(form)
+
+class AdminRequireMixin(object):
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated and Admin.objects.filter(user=request.user).exists():
+            pass
+        else:
+            return redirect('admin_login')
+        return super().dispatch(request, *args, **kwargs)
+
+class AdminHomeView(AdminRequireMixin, TemplateView):
+    template_name = 'admin/admin_home.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(AdminHomeView, self).get_context_data(**kwargs)
+        context['pending_order'] = Order.objects.filter(order_status='Order Recieved').order_by('-id')
+        return context
+
+class AdminOrderDetailView(AdminRequireMixin,DetailView):
+    template_name = 'admin/order_detail.html'
+    model = Order
+    context_object_name = 'ord_obj'
+
+    # def dispatch(self, request, *args, **kwargs):
+    #
+    #     if request.user.is_authenticated and Admin.objects.filter(user=request.user).exists():
+    #         order_id = self.kwargs['pk']
+    #         order_obj = Order.objects.get(id=order_id)
+
+    #
+    #     else:
+    #         return redirect('admin_login')
+    #
+    #     return super().dispatch(request, *args, **kwargs)
+    #
+
+class AdminAllOrderView(AdminRequireMixin, ListView):
+    template_name = 'admin/all_order.html'
+    queryset = Order.objects.all()
+    context_object_name = 'allorders'

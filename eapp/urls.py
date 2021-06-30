@@ -27,4 +27,9 @@ urlpatterns = [
 
     path('create-product/', CreateProductView.as_view(), name='createproduct'),
 
+    path('admin-login/', AdminLoginView.as_view(), name='admin_login'),
+    path('admin-home/', AdminHomeView.as_view(), name='admin_home'),
+    path('admin-order-detail/<int:pk>/', AdminOrderDetailView.as_view(), name='order_detail'),
+    path('admin-allorders/', AdminAllOrderView.as_view(), name='all_orders'),
+
 ]

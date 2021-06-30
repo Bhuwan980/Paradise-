@@ -1,0 +1,36 @@
+{% extends 'admin/admin_base.html' %}
+{% load humanize %}
+
+{% block title %}
+Admin Home | Paradise
+{% endblock %}
+
+{% block contnet %}
+<div class="container">
+<h2 class="text-center">Pending Orders</h2>
+<hr>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th scope="col"><b>SN</b></th>
+        <th scope="col"><b>customer</b></th>
+      <th scope="col"><b>Order Id</b></th>
+      <th scope="col"><b>Order Date</b></th>
+      <th scope="col"><b>Total</b></th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for o in pending_order %}
+    <tr>
+      <th scope="row">{{ forloop.counter }}</th>
+      <td>{{o.order_by}}</td>
+      <td><a href="{% url 'order_detail' o.pk %}">#ORDER_{{o.id}}</a></td>
+      <td>{{o.created_at}}</td>
+      <td>{{o.total|intcomma}}/-</td>
+    </tr>
+{% endfor %}
+
+  </tbody>
+</table>
+  </div>
+{% endblock %}

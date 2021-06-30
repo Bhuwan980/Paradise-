@@ -1,0 +1,45 @@
+{% extends 'admin/admin_base.html' %}
+{% load humanize %}
+
+{% block title %} Order Detail | Admin {% endblock %}
+
+{% block contnet %}
+<div class="container">
+<h2>Order Detail</h2>
+
+    <p>Order by: {{ ord_obj.order_by }}</p>
+    <p>Shipping address: {{ord_obj.shipping_address}}</p>
+    <hr>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>
+                SN
+            </th>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Subtotal</th>
+        </tr>
+
+        </thead>
+
+            <tbody>
+            {% for cp in ord_obj.cart.cartproduct_set.all %}
+            <tr>
+                <th>{{forloop.counter}}</th>
+                <th><a target="blank" href="{% url 'productdetail' cp.product.slug %}">{{cp.product}}</a></th>
+                <th>{{cp.rate|intcomma}}/-</th>
+                <th>{{cp.quantity}}</th>
+                <th>{{cp.subtotal|intcomma}}/-</th>
+
+            </tr>
+            {% endfor %}
+            <tr><th colspan="4" class="text-center"><b>Total</b></th>
+            <th><b>{{ord_obj.total|intcomma}}/-</b></th></tr>
+            </tbody>
+    </table>
+<!--    <p class="text-right">Total: {{ ord_obj.total }}</p>-->
+
+</div>
+{% endblock %}

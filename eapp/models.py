@@ -88,3 +88,14 @@ class Order(models.Model):
 
     # def __str__(self):
     #     return 'Order: ' + str(self.id)
+
+
+class Admin(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=20)
+    last_name = models.CharField(max_length=20)
+    mobile = models.CharField(max_length=10)
+    image = models.ImageField(upload_to='admin/images/')
+
+    def __str__(self):
+        return self.user.username

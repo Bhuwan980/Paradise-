@@ -1,0 +1,38 @@
+{% extends 'admin/admin_base.html' %}
+{% load humanize %}
+
+{% block title %}
+Add Orders Paradise | Paradise
+{% endblock %}
+
+{% block contnet %}
+<div class="container">
+<h2 class="text-center">All Orders</h2>
+<hr>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th scope="col"><b>SN</b></th>
+        <th scope="col"><b>customer</b></th>
+      <th scope="col"><b>Order Id</b></th>
+      <th scope="col"><b>Order Date</b></th>
+      <th scope="col"><b>Total</b></th>
+        <th scope="col"><b>Status</b></th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for o in allorders %}
+    <tr>
+      <th scope="row">{{ forloop.counter }}</th>
+      <td>{{o.order_by}}</td>
+      <td><a href="{% url 'order_detail' o.pk %}">#ORDER_{{o.id}}</a></td>
+      <td>{{o.created_at}}</td>
+      <td>{{o.total|intcomma}}/-</td>
+        <td>{{o.order_status}}</td>
+    </tr>
+{% endfor %}
+
+  </tbody>
+</table>
+  </div>
+{% endblock %}

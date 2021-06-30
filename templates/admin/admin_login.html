@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Paradise | Admin Login
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="text-center">
+        <h3>Admin Login</h3>
+          <hr>
+        {% if error %}
+        <p style="color: red"> {{error}}</p>
+        {% endif %}
+
+        <form method="POST" action="">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Login" class="btn btn-outline-primary">
+        </form>
+    </div>
+</div>
+{% endblock %}
